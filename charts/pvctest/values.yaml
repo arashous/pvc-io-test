@@ -1,0 +1,19 @@
+
+storageClasses:
+#  - portworx-db-gp
+  - portworx-db-gp3
+#  - portworx-db2-sc
+  - portworx-metastoredb-sc
+  - portworx-nonshared-gp
+  - portworx-nonshared-gp2
+  - portworx-nonshared-gp3
+  - portworx-shared-gp
+  - portworx-shared-gp2
+  - portworx-shared-gp3
+  - portworx-shared-sc
+
+# Blocksize dd will use
+blockSize: 512MB
+
+# Number of copies dd will make
+ddCount: 4

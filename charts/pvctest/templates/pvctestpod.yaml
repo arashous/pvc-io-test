@@ -1,0 +1,27 @@
+
+{{- range $storagetype := $.Values.storageClasses }}
+
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+    name: pvc-test-{{ $storagetype }}
+spec:
+  template:
+    spec:
+      containers:
+      - name: ubi-minimal
+        image: coolbeevip/ubi8-ubi-minimal
+        # dd if=/dev/zero of=/var/lib/pgsql/data/test.img bs=250MB count=1 oflag=dsync
+
+        command: ["/bin/sh", "-c", "dd if=/dev/zero of=/pvctest/{{ $storagetype }}/test.img bs={{ $blockSize }} count={{ $ddCount }} oflag=sync status=progress ; exit 0"]
+        volumeMounts:
+        - name:  "vol-{{ $storagetype }}"
+          mountPath: "/pvctest/{{ $storagetype }}"
+      volumes:
+      - name: "vol-{{ $storagetype }}"
+        persistentVolumeClaim:
+          claimName: "pvc-{{ $storagetype }}"
+      restartPolicy: Never
+
+{{- end }}

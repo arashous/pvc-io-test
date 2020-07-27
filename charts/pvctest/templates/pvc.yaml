@@ -1,0 +1,17 @@
+
+{{- range $storagetype := $.Values.storageClasses }}
+
+---
+apiVersion: "v1"
+kind: "PersistentVolumeClaim"
+metadata:
+  name: "pvc-{{ $storagetype }}"
+spec:
+  storageClassName: "{{ $storagetype }}"
+  accessModes:
+    - "ReadWriteMany"
+  resources:
+    requests:
+      storage: "2Gi"
+
+{{- end }}
